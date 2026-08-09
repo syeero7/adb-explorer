@@ -457,18 +457,11 @@ func sortEntries(dir *DirEntries, sortBy string) *DirEntries {
 }
 
 func cleanPath(fpath string) (string, error) {
-	const STORAGE_DIR = "/storage/"
-
 	if strings.ContainsAny(";&|", fpath) {
 		return "", errors.New("invalid characters")
 	}
 
-	cleanPath := path.Clean(fpath)
-	if cleanPath != STORAGE_DIR[:len(STORAGE_DIR)-1] && !strings.HasPrefix(cleanPath, STORAGE_DIR) {
-		return "", errors.New("path escapes " + STORAGE_DIR)
-	}
-
-	return cleanPath, nil
+	return path.Clean(fpath), nil
 }
 
 func toReadableSize(size int64) string {
