@@ -391,13 +391,8 @@ func isValidName(name string) bool {
 		return false
 	}
 
-	invalid := []byte{'<', '>', ':', '"', '/', '\\', '|', '?', '*'}
 	for _, c := range name {
-		if unicode.IsControl(c) {
-			return false
-		}
-
-		if bytes.ContainsRune(invalid, c) {
+		if !unicode.IsLetter(c) && !unicode.IsDigit(c) && !bytes.ContainsRune([]byte{'-', ' ', '_', '.'}, c) {
 			return false
 		}
 	}
