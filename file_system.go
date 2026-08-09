@@ -210,17 +210,6 @@ func (a *App) MakeDir(dir, dirname string) {
 	}
 }
 
-func (a *App) setIgnoreDirs() {
-	if a.ignoreDirs == nil {
-		a.ignoreDirs = make(map[string]struct{})
-	}
-
-	dirNames := []string{".", "..", "emulated", "self"}
-	for _, key := range dirNames {
-		a.ignoreDirs[key] = struct{}{}
-	}
-}
-
 func (a *App) getEntries(dirpath string) (DirEntries, error) {
 	items, err := a.device.List(dirpath)
 	if err != nil {
@@ -229,7 +218,7 @@ func (a *App) getEntries(dirpath string) (DirEntries, error) {
 
 	entries := make([]Entry, 0, len(items))
 	for _, item := range items {
-		if _, ok := a.ignoreDirs[item.Name]; ok {
+		if item.Name == "." || item.Name == ".." {
 			continue
 		}
 

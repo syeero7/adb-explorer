@@ -16,7 +16,6 @@ type App struct {
 	ctx         context.Context
 	client      goadb.Client
 	device      goadb.Device
-	ignoreDirs  map[string]struct{}
 	settings    DefaultSettings
 }
 
@@ -97,7 +96,6 @@ func (a *App) SelectDevice(idx int, downloadDir string) {
 	a.device = devices[idx]
 	a.cache = *newDirCache(5)
 	a.settings.DownloadDir = downloadDir
-	a.setIgnoreDirs()
 }
 
 func (a *App) DownloadADB() string {
