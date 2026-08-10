@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 
 	goadb "github.com/electricbubble/gadb"
@@ -149,6 +150,46 @@ func (a *App) KillServer(adbPath string, port int) {
 	if err := killADBServer(adbPath, port); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func (a *App) GetShortcutPaths() []string {
+	paths := []string{"/sdcard", "/storage"}
+
+	entries, err := a.device.List("/storage")
+	if err != nil {
+		a.sendLogMsg(LogErr, err.Error())
+		return paths
+	}
+
+	for _, entry := range entries {
+		if entry.Name == "." || entry.Name == ".." || entry.Name == "self" || entry.Name == "emulated" {
+			continue
+		}
+
+		path1 := path.Join("/storage", entry.Name, "Android")
+		items, err := a.device.List(path1)
+		if err != nil {
+			a.sendLogMsg(LogErr, err.Error())
+			return paths
+		}
+
+		if len(items) > 0 {
+			paths = append(paths, path.Dir(path1))
+		}
+
+		path2 := path.Join("/storage", entry.Name, "Download")
+		items2, err := a.device.List(path2)
+		if err != nil {
+			a.sendLogMsg(LogErr, err.Error())
+			return paths
+		}
+
+		if len(items2) > 0 {
+			paths = append(paths, path2)
+		}
+	}
+
+	return paths
 }
 
 func (a *App) SelectADBExecutable() string {

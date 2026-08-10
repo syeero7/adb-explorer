@@ -7,7 +7,6 @@
   import {
     toDir,
     directory,
-    isStorageDir,
     download,
     upload,
     deleteEntry,
@@ -32,7 +31,6 @@
   const currentRowId = $derived(
     currentRow?.querySelector<HTMLInputElement>("td > input")?.value || "",
   );
-  const isStorage = $derived(isStorageDir(directory.current));
   const isFile = $derived(currentRowId.startsWith("1|"));
   const menuStyle = $derived.by(() => {
     const { x, y } = positions.cursor;
@@ -101,21 +99,22 @@
 <svelte:window {oncontextmenu} onclick={closeMenu} />
 
 <InputDialog bind:dialog />
+<!-- FIXME: disable unnecessary menu options based on selected row -->
 
 {#if menu.isOpen}
   <menu transition:fade={{ duration: 100 }} {@attach getContextMenuDimension} style={menuStyle}>
-    {@render item("open", OPEN_DIR, () => toDir(currentRowId), isFile && !isStorage)}
-    {@render item("download", DOWNLOAD, download("default", [currentRowId]), isStorage)}
-    {@render item("download to", DOWNLOAD, download("select", [currentRowId]), isStorage)}
-    {@render item("delete", DELETE, deleteEntry([currentRowId]), isStorage)}
-    {@render item("rename", RENAME, renenameDialog, isStorage)}
+    {@render item("open", OPEN_DIR, () => toDir(currentRowId))}
+    {@render item("download", DOWNLOAD, download("default", [currentRowId]))}
+    {@render item("download to", DOWNLOAD, download("select", [currentRowId]))}
+    {@render item("delete", DELETE, deleteEntry([currentRowId]))}
+    {@render item("rename", RENAME, renenameDialog)}
     <hr />
-    {@render item("upload files", UPLOAD, upload("files", directory.current), isStorage)}
-    {@render item("upload directory", UPLOAD, upload("dir", directory.current), isStorage)}
-    {@render item("create directory", CREATE_DIR, createDirDialog, isStorage)}
+    {@render item("upload files", UPLOAD, upload("files", directory.current))}
+    {@render item("upload directory", UPLOAD, upload("dir", directory.current))}
+    {@render item("create directory", CREATE_DIR, createDirDialog)}
     <hr />
 
-    {const isDisabled = isStorage || selected.length === 0}
+    {const isDisabled = selected.length === 0}
     {@render item("download selected", DOWNLOAD, download("default", selected), isDisabled)}
     {@render item("download selected to", DOWNLOAD, download("select", selected), isDisabled)}
     {@render item("delete selected", DELETE, deleteEntry(selected), isDisabled)}

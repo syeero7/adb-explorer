@@ -7,7 +7,6 @@
     type InfoTitle,
     getEntries,
     directory,
-    isStorageDir,
     sortBy,
     toDir,
     removePrefix,
@@ -15,13 +14,14 @@
   import { svg, DOWN_ARROW, UP_ARROW, FILE, FOLDER } from "@/lib/svg";
 
   let selected: string[] = $state([]);
-  const isStorage = $derived(isStorageDir(directory.current));
 
   const isSymlink = (mode: number) => (mode & 0xf000) === 0xa000;
 </script>
 
 <Header />
 <ContextMenu {selected} />
+
+<!-- TODO: sort entries dir/symlinkdir first then regular files -->
 
 <section class="explorer" in:fade>
   {#await getEntries(directory)}
@@ -70,7 +70,7 @@
 
   <tr data-active={undefined}>
     <td>
-      <input type="checkbox" value={path} bind:group={selected} disabled={isStorage} />
+      <input type="checkbox" value={path} bind:group={selected} />
     </td>
 
     {const isFile = !entry.isDir && !isSymlink(entry.mode)}

@@ -26,6 +26,10 @@ export function GetDeviceList() {
   return window['go']['main']['App']['GetDeviceList']();
 }
 
+export function GetShortcutPaths() {
+  return window['go']['main']['App']['GetShortcutPaths']();
+}
+
 export function KillServer(arg1, arg2) {
   return window['go']['main']['App']['KillServer'](arg1, arg2);
 }

@@ -14,6 +14,8 @@ export function GetDefaultSettings():Promise<main.DefaultSettings>;
 
 export function GetDeviceList():Promise<Array<string>>;
 
+export function GetShortcutPaths():Promise<Array<string>>;
+
 export function KillServer(arg1:string,arg2:number):Promise<void>;
 
 export function List(arg1:string,arg2:string,arg3:string,arg4:number):Promise<main.DirEntries>;

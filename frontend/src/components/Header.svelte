@@ -1,10 +1,17 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
   import Logs from "./Logs.svelte";
-  import { directory, isStorageDir, refresh, toParentDir, toStorageDir } from "@/lib/fs.svelte";
-  import { svg, RELOAD, UP_ARROW, STORAGE, SEARCH, CLOSE } from "@/lib/svg";
+  import { svg, RELOAD, UP_ARROW, SEARCH, CLOSE } from "@/lib/svg";
+  import { directory, refresh, toParentDir } from "@/lib/fs.svelte";
+  import { GetShortcutPaths } from "@wails/go/main/App";
+
+  let shortcutPaths = $state<string[]>([]);
+  onMount(async () => {
+    shortcutPaths = await GetShortcutPaths();
+  });
 
   let isSearching = $state(false);
-  const isStorage = $derived(isStorageDir(directory.current));
   let timeout: number | undefined;
 
   const openSearch = async () => {
@@ -36,29 +43,30 @@
     {@render svg({ d: RELOAD })}
   </button>
 
-  <button title="go to parent directory" onclick={toParentDir} disabled={isStorage}>
+  <button title="go to parent directory" onclick={toParentDir} disabled={directory.current == "/"}>
     {@render svg({ d: UP_ARROW })}
   </button>
 
-  <button title="go to storage directory" onclick={toStorageDir} disabled={isStorage}>
-    {@render svg({ d: STORAGE })}
-  </button>
-
   {#if isSearching}
-    <!-- svelte-ignore a11y_autofocus -->
-    <input type="text" autofocus oninput={search} aria-label="search query" />
-    <button title="close" onclick={closeSearch}>
-      {@render svg({ d: CLOSE })}
-    </button>
+    <div in:fade class="wrapper">
+      <!-- svelte-ignore a11y_autofocus -->
+      <input type="text" autofocus oninput={search} aria-label="search query" />
+      <button title="close" onclick={closeSearch}>
+        {@render svg({ d: CLOSE })}
+      </button>
+    </div>
   {:else}
-    <input
-      type="text"
-      bind:value={directory.current}
-      readonly
-      aria-label="current directory path" />
-    <button title="search entry" onclick={openSearch}>
-      {@render svg({ d: SEARCH })}
-    </button>
+    <div in:fade class="wrapper">
+      <select bind:value={directory.current} aria-label="current directory path">
+        {#each shortcutPaths as path}
+          <option value={path} selected={path == "/sdcard"}>{path}</option>
+        {/each}
+      </select>
+
+      <button title="search entry" onclick={openSearch}>
+        {@render svg({ d: SEARCH })}
+      </button>
+    </div>
   {/if}
 
   <Logs />
@@ -76,13 +84,28 @@
     min-height: var(--explorer-header-height);
     margin-top: var(--explorer-header-margin);
 
+    .wrapper {
+      display: flex;
+      flex: 1;
+      gap: 0.5em;
+    }
+
+    .wrapper:has(> select)::after {
+      top: calc(50% - 0.5em);
+      right: calc(var(--btn-size) * 2);
+    }
+
+    select,
     input {
       flex: 1;
       min-width: 25ch;
-      cursor: text;
       outline: none;
       box-shadow: unset;
       max-height: var(--btn-size);
+    }
+
+    input {
+      cursor: text;
     }
 
     button {

@@ -10,20 +10,14 @@ type Dir = {
   refresh: number;
 };
 
-const STORAGE_DIR = "/storage/";
-
 export const directory = $state<Dir>({
-  current: STORAGE_DIR,
+  current: "/sdcard",
   query: "",
   sortBy: "name:asc",
   refresh: 0,
 });
 
 let parentDir = $state("/");
-
-export function isStorageDir(dir: string) {
-  return dir === STORAGE_DIR || dir === STORAGE_DIR.slice(0, -1);
-}
 
 export async function getEntries(dir: Dir) {
   const { entries, parent } = await List(dir.current, dir.query, dir.sortBy, dir.refresh);
@@ -33,11 +27,6 @@ export async function getEntries(dir: Dir) {
 
 export function toParentDir() {
   directory.current = parentDir;
-  directory.refresh = 0;
-}
-
-export function toStorageDir() {
-  directory.current = STORAGE_DIR;
   directory.refresh = 0;
 }
 
