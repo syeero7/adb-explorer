@@ -58,8 +58,11 @@
   {:else}
     <div in:fade class="wrapper">
       <select bind:value={directory.current} aria-label="current directory path">
+        <option value={directory.current}>{directory.current}</option>
         {#each shortcutPaths as path}
-          <option value={path} selected={path == "/sdcard"}>{path}</option>
+          {#if path !== directory.current}
+            <option value={path} selected={path == directory.current}>{path}</option>
+          {/if}
         {/each}
       </select>
 
