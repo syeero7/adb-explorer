@@ -49,7 +49,11 @@
         </table>
       {:else}
         <div data-status="empty" in:fade>
-          <p>The directory is either empty, inaccessible due to permissions or does not exist.</p>
+          {#if directory.query != ""}
+            <p>No results for "{directory.query}"</p>
+          {:else}
+            <p>The directory is either empty, inaccessible due to permissions or does not exist.</p>
+          {/if}
         </div>
       {/if}
     </div>
