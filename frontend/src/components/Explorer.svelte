@@ -49,7 +49,7 @@
         </table>
       {:else}
         <div data-status="empty" in:fade>
-          <p>The directory is empty.</p>
+          <p>The directory is either empty, inaccessible due to permissions or does not exist.</p>
         </div>
       {/if}
     </div>
