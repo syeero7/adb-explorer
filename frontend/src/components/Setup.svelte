@@ -178,22 +178,6 @@
 
     select {
       min-height: 2.25em;
-      appearance: none;
-    }
-
-    &:has(select) {
-      display: -ms-inline-grid;
-      position: relative;
-
-      ::after {
-        content: "\25BC";
-        position: absolute;
-        top: calc(50% + 0.4em);
-        right: 0.75em;
-        font-size: 0.75em;
-        color: var(--foreground);
-        pointer-events: none;
-      }
     }
   }
 
