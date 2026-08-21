@@ -1,16 +1,17 @@
-# README
+# ADB Explorer
 
-## About
+A cross-platform desktop app for file transfer and management between PC and Android mobile devices. It uses the Android Debug Bridge (ADB) protocol for communication. After the initial start of the ADB server it uses a native Go ADB client library to interact with the protocol, thereby avoiding the creation of redundant subprocesses. The application supports all fundamental file management operations.
 
-This is the official Wails Svelte-TS template.
+<!-- TODO: add screenshots -->
 
-## Live Development
+![screenshot](./screenshot.webp)
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+## Getting Started
 
-## Building
+<!-- TODO: how to install -->
 
-To build a redistributable, production mode package, use `wails build`.
+<!-- TODO: how to clone and build -->
+
+## Local Development
+
+<!-- TODO: go workspace stuff -->
