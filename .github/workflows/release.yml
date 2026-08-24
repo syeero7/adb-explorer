@@ -48,7 +48,7 @@ jobs:
         with:
           version: 11
           runtime: node@24.19
-          cache: true
+          install: false
       - run: pnpm ci --dir frontend
       - run: pnpm build --dir frontend
 
