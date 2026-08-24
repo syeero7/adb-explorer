@@ -1,0 +1,91 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+env:
+  APP_NAME: "adb-explorer"
+  NODE_OPTIONS: "--max-old-space-size=4096"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            suffix: ""
+          - goos: darwin
+            goarch: amd64
+            suffix: ""
+          - goos: windows
+            goarch: amd64
+            suffix: ".exe"
+          # - goos: darwin
+          #   goarch: arm64
+          #   suffix: ''
+          # - goos: linux
+          #   goarch: arm64
+          #   suffix: ''
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.25"
+
+      - name: Install Walis
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@2.15.0
+
+      - name: Setup NodeJS and build frontend
+        uses: pnpm/setup@v2
+        with:
+          version: 11
+          runtime: node@24.19
+          cache: true
+      - run: pnpm ci --dir frontend
+      - run: pnpm build --dir frontend
+
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          wails build -upx -trimpath -o ${ APP_NAME }-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.suffix }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${ APP_NAME }-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: build/bin/${ APP_NAME }-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.suffix }}
+          merge-duplicate: true
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v6
+            draft: false
+            prerelease: false
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create GitHub Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+          draft: false
+          prerelease: false
+          generate_release_notes: true
