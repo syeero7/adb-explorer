@@ -16,7 +16,7 @@ A cross-platform desktop app for file transfer and management between PC and And
 
 ### Build from Source
 
-Install wails v2 and required dependencies. [Walis docs](https://wails.io/docs/gettingstarted/installation/)
+Install wails v2 and required dependencies. [Wails docs](https://wails.io/docs/gettingstarted/installation/)
 
 Clone the repository
 
@@ -37,7 +37,7 @@ wails build -upx -trimpath -platform=windows
 
 ## Local Development
 
-Install wails and required dependencies. [Walis docs](https://wails.io/docs/gettingstarted/installation/)
+Install wails and required dependencies. [Wails docs](https://wails.io/docs/gettingstarted/installation/)
 
 ```bash
 # Initialize go workspace
