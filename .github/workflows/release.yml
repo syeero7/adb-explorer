@@ -41,7 +41,7 @@ jobs:
           go-version: "1.25"
 
       - name: Install Walis
-        run: go install github.com/wailsapp/wails/v2/cmd/wails@2.15.0
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
 
       - name: Setup NodeJS and build frontend
         uses: pnpm/setup@v2
