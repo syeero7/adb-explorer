@@ -57,13 +57,13 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CGO_ENABLED: 0
         run: |
-          wails build -upx -trimpath -o ${ APP_NAME }-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.suffix }}
+          wails build -upx -trimpath -o ${APP_NAME}-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.suffix }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
-          name: ${ APP_NAME }-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: build/bin/${ APP_NAME }-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.suffix }}
+          name: ${APP_NAME}-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: build/bin/${APP_NAME}-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.suffix }}
           merge-duplicate: true
 
   release:
