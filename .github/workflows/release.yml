@@ -48,8 +48,8 @@ jobs:
           version: 11
           runtime: node@24.19
           install: false
-      - run: pnpm ci --dir frontend
-      - run: pnpm build --dir frontend
+      - run: pnpm --dir frontend ci
+      - run: pnpm --dir frontend build
 
       - name: Build binary
         env:
