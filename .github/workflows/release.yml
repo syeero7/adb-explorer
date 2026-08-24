@@ -69,9 +69,9 @@ jobs:
         with:
           name: ${{ env.APP_NAME }}-${{ matrix.goos }}-${{ matrix.goarch }}
           path: build/bin/${{ env.APP_NAME }}-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.suffix }}
-          run: ls -R build/bin/
           if-no-files-found: error
           overwrite: true
+        run: ls -R build/bin
 
   release:
     needs: build
@@ -85,9 +85,9 @@ jobs:
         with:
           path: artifacts
           merge-multiple: true
-          run: ls -R artifact
+        run: ls -R artifacts
 
-      - name: Create GitHub Release and Upload Assets
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
           files: artifacts/*
