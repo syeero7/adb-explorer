@@ -6,7 +6,7 @@ A cross-platform desktop app for file transfer and management between PC and And
 
 ## Getting Started
 
-- Download [lalest release](https://github.com/syeero7/adb-explorer/releases/latest)
+- Download [latest release](https://github.com/syeero7/adb-explorer/releases/latest)
 - Enable USB debugging
     - Settings > Software Information
     - Tap `build number` few times to turn on developer options
@@ -25,7 +25,7 @@ git clone https://github.com/syeero7/adb-explorer
 cd adb-explorer
 ```
 
-Build the complied binary
+Compile the binary
 
 ```bash
 # linux
