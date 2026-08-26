@@ -40,6 +40,10 @@ wails build -upx -trimpath -platform=windows
 Install wails and required dependencies. [Wails docs](https://wails.io/docs/gettingstarted/installation/)
 
 ```bash
+# Install dependencies
+go mod tidy
+pnpm --dir frontend install
+
 # Initialize go workspace
 go work init .
 
