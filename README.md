@@ -16,13 +16,20 @@ A cross-platform desktop app for file transfer and management between PC and And
 
 ### Build from Source
 
-Install wails v2 and required dependencies. [Wails docs](https://wails.io/docs/gettingstarted/installation/)
+Install wails and required dependencies. [Wails docs](https://wails.io/docs/gettingstarted/installation/)
 
 Clone the repository
 
 ```bash
 git clone https://github.com/syeero7/adb-explorer
 cd adb-explorer
+```
+
+Install dependencies
+
+```bash
+go mod tidy
+pnpm --dir frontend install
 ```
 
 Compile the binary
@@ -35,15 +42,9 @@ wails build -upx -trimpath -platform=linux
 wails build -upx -trimpath -platform=windows
 ```
 
-## Local Development
-
-Install wails and required dependencies. [Wails docs](https://wails.io/docs/gettingstarted/installation/)
+### Local Development
 
 ```bash
-# Install dependencies
-go mod tidy
-pnpm --dir frontend install
-
 # Initialize go workspace
 go work init .
 
