@@ -53,3 +53,27 @@ go work use /home/<username>/go/pkg/mod/github.com/wailsapp/wails/<wails_version
 
 wails dev
 ```
+
+## Troubleshooting
+
+Can't run
+
+```bash
+# Add execute permission
+chmod +x adb-explore-linux-amd64
+```
+
+Failed to start
+
+```bash
+# Install missing dependencies
+
+# Debian/Ubuntu
+sudo apt install libwebkit2gtk-4.1-0
+
+# Fedora
+sudo dnf install webkit2gtk4.1
+
+# Arch
+sudo pacman -S webkit2gtk-4.1
+```
