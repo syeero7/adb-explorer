@@ -60,7 +60,7 @@ Can't run
 
 ```bash
 # Add execute permission
-chmod +x adb-explore-linux-amd64
+chmod +x adb-explorer-linux-amd64
 ```
 
 Failed to start
